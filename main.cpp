@@ -17,40 +17,158 @@ for(int i=0;i<studenti;i++)
 // della matrice di riga "studente" e colonna "insegnamento". Il
 // procedimento itera fino a quando non viene inserito il numero di matricola 0
 void inserisci() {
+    int mat;
+    int voto;
+    int cod;
+    do {
 
+        cout << "Inserire matricola studente: (0 per fermare)" << endl;
+        cin >> mat;
+        if(mat==0) break;
+        cout<<"Inserire voto:"<<endl;
+        cin>>voto;
+        cout<<"Inserire codice insegnamento:"<<endl;
+        cin>>cod;
+
+        voti[mat][cod]=voto;
+
+    } while (mat!=0);
 }
 
 // questa funzione restituisce il numero degli esami superati dallo studente
 // passato come argomento
 int superati(int studente) {
-
+    int sup=0;
+    for(int i=0;i<esami;i++)
+     if(voti[studente][i]>16)  sup++;
+return sup;
 }
 
 // questa funzione restituisce la media dei voti riportati dallo studente
 // passato come argomento
 float media_studente(int studente){
-
+float med=0;
+int c=0;
+    for(int i=0;i<esami;i++)
+        if(voti[studente][i]!=0){
+            med+=voti[studente][i];
+            c++;
+        }
+    return med/c;
 }
 
 // questa funzione restituisce il numero degli studenti che hanno superato
 // l'esame il cui codice d'insegnamento e' stato passato come argomento
 int esami_effettuati(int esame) {
-
+    int sup=0;
+    for(int i=0;i<studenti;i++)
+        if(voti[i][esame]>16)  sup++;
+    return sup;
 }
 
 // questa funzione restituisce la media dei voti impartiti dal docente
 // il cui codice d'insegnamento e' stato passato come argomento
 float media_esami(int esame)
 {
-
+    float med=0;
+    int c=0;
+    for(int i=0;i<studenti;i++)
+        if(voti[i][esame]!=0){
+            med+=voti[i][esame];
+            c++;
+        }
+    if(c!=0)
+    return med/c;
+    else return 0;
 }
 
 // questa procedura stampa la matrice
 void stampaMatrice()
 {
 
+    cout<<"insegnamenti";
+    for(int i=0;i<esami;i++)
+        cout<<" ["<<i<<"]\t";
+    cout<<endl;
+
+for(int i=0;i<studenti;i++){
+    cout<<"matricola ["<<i<<"]\t";
+    for(int j=0;j<esami;j++)
+        cout<<voti[i][j]<<"\t";
+    cout<<endl;
+}
+
 }
 
 int main() {
-inizializza();
+
+bool run=true;
+char scelta;
+int stud;
+int esame;
+float m;
+
+    inizializza();
+
+do {
+    cout << "INSERISCI ESAME: a" << endl;
+    cout << "ESAMI SUPERATI DALLO STUDENTE: b" << endl;
+    cout << "MEDIA PER STUDENTE: c" << endl;
+    cout << "ESAMI VERBALIZZATI PER INSEGNAMENTO: d" << endl;
+    cout << "MEDIA PER INSEGNAMENTO: e" << endl;
+    cout << "STAMPA IL VETTORE: s" << endl;
+    cout << "ESCI: x"<<endl;
+    cin>>scelta;
+    switch (scelta) {
+
+    case 'a':case 'A':
+        inserisci();
+            break;
+
+            case 'b':case 'B':
+                cout<<"Inserire matricola:"<<endl;
+            cin>>stud;
+            cout<<"Lo studente ha superato "<<superati(stud)<<" esami."<<endl;
+            break;
+
+            case 'c':case 'C':
+                cout<<"Inserire matricola:"<<endl;
+                cin>>stud;
+                cout<<"Lo studente ";
+                m=media_studente(stud);
+                if(m!=0)
+                    cout<<"ha una media di "<<m<<"."<<endl;
+                else cout<<"non ha esami."<<endl;
+                break;
+
+        case 'd':case 'D':
+            cout<<"Inserire codice insegnamento:"<<endl;
+            cin>>esame;
+            cout<<"L'esame e' stato superato da "<<esami_effettuati(esame)<<" studenti."<<endl;
+            break;
+
+            case 'e':case 'E':
+                cout<<"Inserire codice insegnamento:"<<endl;
+            cin>>esame;
+            m=media_esami(esame);
+            if(m!=0)
+                cout<<"La media di superamento dell'esame e' "<<m<<"."<<endl;
+            else cout<<"Nessuno ha superato l'esame."<<endl;
+            break;
+
+        case 's': case 'S':
+            stampaMatrice();
+            break;
+
+            case 'x':case 'X':
+                    cout<<"Uscita dal programma."<<endl;
+                    run=false;
+                    break;
+
+        default:
+            cout<<"Scelta incompatibile."<<endl;
+            break;
+    }
+}while(run);
+
 }
