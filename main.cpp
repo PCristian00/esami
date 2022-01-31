@@ -22,13 +22,23 @@ void inserisci() {
     int cod;
     do {
 
-        cout << "Inserire matricola studente: (0 per fermare)" << endl;
-        cin >> mat;
-        if(mat==0) break;
-        cout<<"Inserire voto:"<<endl;
-        cin>>voto;
-        cout<<"Inserire codice insegnamento:"<<endl;
-        cin>>cod;
+        do{
+            cout << "Inserire matricola studente: (0 per fermare) MAX [1-6]" << endl;
+            cin >> mat;
+        }while(mat<0||mat>6);
+            if(mat==0) break;
+
+        do {
+            cout << "Inserire codice insegnamento: [0-7]" << endl;
+            cin >> cod;
+        }while(cod<0||cod>7);
+
+        do {
+            cout << "Inserire voto: [0-30]" << endl;
+            cin >> voto;
+        }while(voto<0||voto>30);
+
+
 
         voti[mat][cod]=voto;
 
